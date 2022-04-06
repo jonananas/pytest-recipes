@@ -1,5 +1,5 @@
 from unittest.mock import _Call, MagicMock, call, patch
-import mocked_module
+from pytest_recipes import mocked_module
 import re
 
 
@@ -12,7 +12,7 @@ https://benoitgoujon.com/post/six-advanced-pytest-tricks/ contains
 - Using pytest.mark.freeze_time Test time-dependent functions
 """
 
-@patch('mocked_module._logger.warn')
+@patch('pytest_recipes.mocked_module._logger.warn')
 def test_patch_one_call_check_args(warn: MagicMock):
     """
     Show use of patch decorator with partial argument matching
@@ -26,8 +26,8 @@ def test_patch_one_call_check_args(warn: MagicMock):
     assert len(warn.call_args_list[0].kwargs) == 0
 
 
-@patch('mocked_module._logger.warn')
-@patch('mocked_module._logger.fatal')
+@patch('pytest_recipes.mocked_module._logger.warn')
+@patch('pytest_recipes.mocked_module._logger.fatal')
 def test_patching_two_calls(fatal: MagicMock, warn: MagicMock):
     """
     Same as above, but two calls patched, notice reverse order of parameters and @patch definitions
@@ -43,7 +43,7 @@ def test_patching_two_calls(fatal: MagicMock, warn: MagicMock):
 def assert_matches(regex, string):
     assert re.match(regex, string), f"'{string}' did not match regex '{regex}'"
 
-@patch('mocked_module._logger.warn')
+@patch('pytest_recipes.mocked_module._logger.warn')
 def test_matching_with_regex(warn: MagicMock):
     """
     Match args using Regular expression
@@ -59,7 +59,7 @@ Below is tests showing use of mocker fixture and explicit patching instead of us
 """
 
 def test_mocker_one_call_check_args(mocker: MagicMock):
-    mocker.patch('mocked_module._logger.warn', return_value=None)
+    mocker.patch('pytest_recipes.mocked_module._logger.warn', return_value=None)
 
     mocked_module.call_warn("shit happens")
 
@@ -68,7 +68,7 @@ def test_mocker_one_call_check_args(mocker: MagicMock):
 
 
 def test_mocker_two_calls_check_second_args(mocker: MagicMock):
-    mocker.patch('mocked_module._logger.warn', return_value=None)
+    mocker.patch('pytest_recipes.mocked_module._logger.warn', return_value=None)
 
     mocked_module.call_warn("shit happens")
     mocked_module.call_warn("shit happens 2", "twice 2", kw="sometimes")
@@ -79,7 +79,7 @@ def test_mocker_two_calls_check_second_args(mocker: MagicMock):
 
 
 def test_mocker_one_call_check_args_via_types(mocker: MagicMock):
-    mocker.patch('mocked_module._logger.warn', return_value=None)
+    mocker.patch('pytest_recipes.mocked_module._logger.warn', return_value=None)
 
     mocked_module.call_warn("shit happens")
     mocked_module.call_warn("shit happens 2", "twice 2", kw="sometimes")
